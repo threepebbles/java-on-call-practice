@@ -9,6 +9,7 @@ import oncall.domain.DayOfWeek;
 import oncall.domain.Worker;
 import oncall.util.DateUtil;
 import oncall.util.RetryHandler;
+import oncall.util.Validator;
 
 public class InputView {
     private static final String ENTER_MONTH_AND_DAY_SCREEN = "비상 근무를 배정할 월과 시작 요일을 입력하세요> ";
@@ -33,18 +34,10 @@ public class InputView {
         if (parsed.size() != 2) {
             throw new IllegalArgumentException("[ERROR] 올바르지 않은 포맷입니다.");
         }
-        validateInteger(parsed.get(0));
+        Validator.validateInteger(parsed.get(0));
         int month = Integer.parseInt(parsed.get(0));
         if (!(DateUtil.isMonth(month) && DayOfWeek.isExist(parsed.get(1)))) {
             throw new IllegalArgumentException("[ERROR] 월과 시작 요일을 올바르게 입력하지 않았습니다.");
-        }
-    }
-
-    private static void validateInteger(String s) {
-        try {
-            Integer.parseInt(s);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("[ERROR] 정수가 아닙니다.");
         }
     }
 
