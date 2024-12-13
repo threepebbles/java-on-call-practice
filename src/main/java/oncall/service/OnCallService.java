@@ -90,20 +90,18 @@ public class OnCallService {
         Worker worker = workInfo.getWorker();
         int month = workInfo.getWorkDate().getMonth();
         int day = workInfo.getWorkDate().getDay();
-        DayOfWeek startdayOfWeek = calender.getStartDayOfWeek();
-        swapWorkerOrder(weekdayWorkers, restDayWorkers, month, day, startdayOfWeek, worker);
-    }
+        DayOfWeek startDayOfWeek = calender.getStartDayOfWeek();
 
-    private void swapWorkerOrder(List<Worker> weekdayWorkers, List<Worker> restDayWorkers, int month, int day,
-                                 DayOfWeek startDayOfWeek, Worker worker) {
         if (DateUtil.isRestDay(month, day, startDayOfWeek)) {
-            int i = restDayWorkers.indexOf(worker);
-            int j = (i + 1) % (restDayWorkers.size());
-            Collections.swap(restDayWorkers, i, j);
+            findAndSwapWorker(restDayWorkers, worker);
             return;
         }
-        int i = weekdayWorkers.indexOf(worker);
-        int j = (i + 1) % (weekdayWorkers.size());
-        Collections.swap(weekdayWorkers, i, j);
+        findAndSwapWorker(weekdayWorkers, worker);
+    }
+
+    private void findAndSwapWorker(List<Worker> workers, Worker worker) {
+        int i = workers.indexOf(worker);
+        int j = (i + 1) % (workers.size());
+        Collections.swap(workers, i, j);
     }
 }
