@@ -33,7 +33,7 @@ public class OnCallService {
 
     private WorkCalender createWorkCalenderBy(int month, DayOfWeek startDayOfWeek, List<Worker> weekdayWorkers,
                                               List<Worker> restDayWorkers) {
-        WorkCalender calender = new WorkCalender(startDayOfWeek);
+        WorkCalender calender = new WorkCalender(month, startDayOfWeek);
         List<WorkDate> weekdays = new ArrayList<>();
         List<WorkDate> restDays = new ArrayList<>();
         classifyWorkDate(month, startDayOfWeek, restDays, weekdays);
