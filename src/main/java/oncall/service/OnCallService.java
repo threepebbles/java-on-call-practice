@@ -41,6 +41,18 @@ public class OnCallService {
         distributeRestDayWork(restDayWorkers, restDays, calender);
         return calender;
     }
+    
+    private void classifyWorkDate(int month, DayOfWeek startDayOfWeek, List<WorkDate> restDays,
+                                  List<WorkDate> weekDays) {
+        int endDay = DateUtil.MONTH_TO_END_DAY.get(month);
+        for (int i = 1; i <= endDay; i++) {
+            if (DateUtil.isRestDay(month, i, startDayOfWeek)) {
+                restDays.add(new WorkDate(month, i, DateUtil.calculateDayOfWeek(i, startDayOfWeek)));
+                continue;
+            }
+            weekDays.add(new WorkDate(month, i, DateUtil.calculateDayOfWeek(i, startDayOfWeek)));
+        }
+    }
 
     private void distributeWeekDayWork(List<Worker> weekDayWorkers, List<WorkDate> weekDays, WorkCalender calender) {
         for (int i = 0, j = 0; i < weekDays.size(); i++, j = (j + 1) % (weekDayWorkers.size())) {
@@ -51,18 +63,6 @@ public class OnCallService {
     private void distributeRestDayWork(List<Worker> restDayWorkers, List<WorkDate> restDays, WorkCalender calender) {
         for (int i = 0, j = 0; i < restDays.size(); i++, j = (j + 1) % (restDayWorkers.size())) {
             calender.addSchedule(restDays.get(i), restDayWorkers.get(j));
-        }
-    }
-
-    private void classifyWorkDate(int month, DayOfWeek startDayOfWeek, List<WorkDate> restDays,
-                                  List<WorkDate> weekDays) {
-        int endDay = DateUtil.MONTH_TO_END_DAY.get(month);
-        for (int i = 1; i <= endDay; i++) {
-            if (DateUtil.isRestDay(month, i, startDayOfWeek)) {
-                restDays.add(new WorkDate(month, i, DateUtil.calculateDayOfWeek(i, startDayOfWeek)));
-                continue;
-            }
-            weekDays.add(new WorkDate(month, i, DateUtil.calculateDayOfWeek(i, startDayOfWeek)));
         }
     }
 
