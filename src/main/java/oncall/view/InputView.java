@@ -67,7 +67,7 @@ public class InputView {
             validateWorkers(inp);
             List<String> parsed = Arrays.stream(inp.split(",", -1)).toList();
             List<Worker> workers = new ArrayList<>();
-            parsed.forEach(name -> workers.add(new Worker(Course.WEEK_DAY, name)));
+            parsed.forEach(name -> workers.add(new Worker(Course.REST_DAY, name)));
             return new WorkersRequest(workers);
         });
     }
