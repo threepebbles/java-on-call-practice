@@ -9,14 +9,14 @@ import oncall.domain.Holiday;
 
 public class DateUtil {
     public static final List<Holiday> HOLIDAYS = new ArrayList<Holiday>() {{
-        add(new Holiday(1, 1));
-        add(new Holiday(3, 1));
-        add(new Holiday(5, 5));
-        add(new Holiday(6, 6));
-        add(new Holiday(8, 15));
-        add(new Holiday(10, 3));
-        add(new Holiday(10, 9));
-        add(new Holiday(12, 25));
+        add(new Holiday(1, 1, "신정"));
+        add(new Holiday(3, 1, "삼일절"));
+        add(new Holiday(5, 5, "어린이날"));
+        add(new Holiday(6, 6, "현충일"));
+        add(new Holiday(8, 15, "광복절"));
+        add(new Holiday(10, 3, "개천절"));
+        add(new Holiday(10, 9, "한글날"));
+        add(new Holiday(12, 25, "성탄절"));
     }};
     public static final Map<Integer, Integer> MONTH_TO_END_DAY = new HashMap<Integer, Integer>() {
         {
