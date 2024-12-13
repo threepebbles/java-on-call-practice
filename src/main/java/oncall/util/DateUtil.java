@@ -77,6 +77,6 @@ public class DateUtil {
     }
 
     public static DayOfWeek calculateDayOfWeek(int day, DayOfWeek startDayOfWeek) {
-        return DAY_OF_WEEKS.get(day % 7 + startDayOfWeek.getOrder() - DayOfWeek.MONDAY.getOrder());
+        return DAY_OF_WEEKS.get((day - 1) % 7 + startDayOfWeek.getOrder() - DayOfWeek.MONDAY.getOrder());
     }
 }
