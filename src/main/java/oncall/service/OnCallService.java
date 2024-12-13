@@ -41,7 +41,7 @@ public class OnCallService {
         distributeRestDayWork(restDayWorkers, restDays, calender);
         return calender;
     }
-    
+
     private void classifyWorkDate(int month, DayOfWeek startDayOfWeek, List<WorkDate> restDays,
                                   List<WorkDate> weekDays) {
         int endDay = DateUtil.MONTH_TO_END_DAY.get(month);
@@ -90,12 +90,13 @@ public class OnCallService {
         Worker worker = workInfo.getWorker();
         int month = workInfo.getWorkDate().getMonth();
         int day = workInfo.getWorkDate().getDay();
-        swapWorker(weekDayWorkers, restDayWorkers, calender, month, day, worker);
+        DayOfWeek startdayOfWeek = calender.getStartDayOfWeek();
+        swapWorkerOrder(weekDayWorkers, restDayWorkers, month, day, startdayOfWeek, worker);
     }
 
-    private void swapWorker(List<Worker> weekDayWorkers, List<Worker> restDayWorkers, WorkCalender calender,
-                            int month, int day, Worker worker) {
-        if (DateUtil.isRestDay(month, day, calender.getStartDayOfWeek())) {
+    private void swapWorkerOrder(List<Worker> weekDayWorkers, List<Worker> restDayWorkers, int month, int day,
+                                 DayOfWeek startDayOfWeek, Worker worker) {
+        if (DateUtil.isRestDay(month, day, startDayOfWeek)) {
             int i = restDayWorkers.indexOf(worker);
             int j = (i + 1) % (restDayWorkers.size());
             Collections.swap(restDayWorkers, i, j);
