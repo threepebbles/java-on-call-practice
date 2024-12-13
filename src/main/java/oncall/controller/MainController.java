@@ -7,6 +7,7 @@ import oncall.service.OnCallService;
 import oncall.view.InputView;
 import oncall.view.MonthAndDayOfWeekRequest;
 import oncall.view.OutputView;
+import oncall.view.WorkersRequest;
 
 public class MainController {
     private final OnCallService onCallService;
@@ -17,8 +18,9 @@ public class MainController {
 
     public void run() {
         MonthAndDayOfWeekRequest monthAndDayOfWeek = InputView.scanMonthAndDayOfWeek();
-        List<Worker> weekdayWorkers = InputView.scanWeekdayWorkers().getWorkers();
-        List<Worker> restDayWorkers = InputView.scanRestDayWorkers().getWorkers();
+        WorkersRequest request = InputView.scanWorkers();
+        List<Worker> weekdayWorkers = request.getWeekdayWorkers();
+        List<Worker> restDayWorkers = request.getRestDayWorkers();
 
         WorkCalender calender = onCallService.createWorkCalender(monthAndDayOfWeek.getMonth(),
                 monthAndDayOfWeek.getDayOfWeek(), weekdayWorkers, restDayWorkers);

@@ -41,28 +41,24 @@ public class InputView {
         }
     }
 
-    public static WorkersRequest scanWeekdayWorkers() {
+    public static WorkersRequest scanWorkers() {
         return (WorkersRequest) RetryHandler.retryUntilSuccessWithReturn(() -> {
             System.out.print(ENTER_WEEKDAY_WORKER);
-            String inp = Console.readLine();
-            validateWorkers(inp);
-            List<String> parsed = Arrays.stream(inp.split(",", -1)).toList();
-            List<Worker> workers = new ArrayList<>();
-            parsed.forEach(name -> workers.add(new Worker(Course.WEEKDAY, name)));
-            return new WorkersRequest(workers);
+            List<Worker> weekdayWorkers = scanAndParseWorkers();
+
+            System.out.print(ENTER_REST_DAY_WORKER);
+            List<Worker> restDayWorkers = scanAndParseWorkers();
+            return new WorkersRequest(weekdayWorkers, restDayWorkers);
         });
     }
 
-    public static WorkersRequest scanRestDayWorkers() {
-        return (WorkersRequest) RetryHandler.retryUntilSuccessWithReturn(() -> {
-            System.out.print(ENTER_REST_DAY_WORKER);
-            String inp = Console.readLine();
-            validateWorkers(inp);
-            List<String> parsed = Arrays.stream(inp.split(",", -1)).toList();
-            List<Worker> workers = new ArrayList<>();
-            parsed.forEach(name -> workers.add(new Worker(Course.REST_DAY, name)));
-            return new WorkersRequest(workers);
-        });
+    private static List<Worker> scanAndParseWorkers() {
+        String inp = Console.readLine();
+        validateWorkers(inp);
+        List<String> parsed = Arrays.stream(inp.split(",", -1)).toList();
+        List<Worker> workers = new ArrayList<>();
+        parsed.forEach(name -> workers.add(new Worker(Course.WEEKDAY, name)));
+        return workers;
     }
 
     private static void validateWorkers(String inp) {
