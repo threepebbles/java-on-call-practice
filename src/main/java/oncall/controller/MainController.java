@@ -3,7 +3,7 @@ package oncall.controller;
 import oncall.domain.Worker;
 import oncall.view.InputView;
 import oncall.view.MonthAndDayOfWeekRequest;
-import oncall.view.WeekDayWorkers;
+import oncall.view.WorkersRequest;
 
 public class MainController {
 
@@ -14,8 +14,13 @@ public class MainController {
         MonthAndDayOfWeekRequest request = InputView.scanMonthAndDayOfWeek();
         System.out.println(request.getMonth() + "," + request.getDayOfWeek());
 
-        WeekDayWorkers weekDayWorkers = InputView.scanWeekDayWorkers();
+        WorkersRequest weekDayWorkers = InputView.scanWeekDayWorkers();
         for (Worker w : weekDayWorkers.getWorkers()) {
+            System.out.println(w.getName());
+        }
+
+        WorkersRequest weekendWorkers = InputView.scanWeekDayWorkers();
+        for (Worker w : weekendWorkers.getWorkers()) {
             System.out.println(w.getName());
         }
     }

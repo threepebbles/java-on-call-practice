@@ -48,19 +48,31 @@ public class InputView {
         }
     }
 
-    public static WeekDayWorkers scanWeekDayWorkers() {
-        return (WeekDayWorkers) RetryHandler.retryUntilSuccessWithReturn(() -> {
+    public static WorkersRequest scanWeekDayWorkers() {
+        return (WorkersRequest) RetryHandler.retryUntilSuccessWithReturn(() -> {
             System.out.print(ENTER_WEEK_DAY_WORKER);
             String inp = Console.readLine();
-            validateWeekDayWorkers(inp);
+            validateWorkers(inp);
             List<String> parsed = Arrays.stream(inp.split(",", -1)).toList();
             List<Worker> workers = new ArrayList<>();
             parsed.forEach(name -> workers.add(new Worker(Course.WEEK_DAY, name)));
-            return new WeekDayWorkers(workers);
+            return new WorkersRequest(workers);
         });
     }
 
-    private static void validateWeekDayWorkers(String inp) {
+    public static WorkersRequest scanWeekendWorkers() {
+        return (WorkersRequest) RetryHandler.retryUntilSuccessWithReturn(() -> {
+            System.out.print(ENTER_WEEKEND_WORKER);
+            String inp = Console.readLine();
+            validateWorkers(inp);
+            List<String> parsed = Arrays.stream(inp.split(",", -1)).toList();
+            List<Worker> workers = new ArrayList<>();
+            parsed.forEach(name -> workers.add(new Worker(Course.WEEK_DAY, name)));
+            return new WorkersRequest(workers);
+        });
+    }
+    
+    private static void validateWorkers(String inp) {
         List<String> parsed = Arrays.stream(inp.split(",", -1)).toList();
         if (parsed.size() < MIN_WORKER_COUNT || parsed.size() > MAX_WORKER_COUNT) {
             throw new IllegalArgumentException("[ERROR] 인원 수는 5명 이상 35명 이하여야 합니다.");

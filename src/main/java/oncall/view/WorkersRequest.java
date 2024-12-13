@@ -3,10 +3,10 @@ package oncall.view;
 import java.util.List;
 import oncall.domain.Worker;
 
-public class WeekDayWorkers {
+public class WorkersRequest {
     private final List<Worker> workers;
 
-    public WeekDayWorkers(List<Worker> workers) {
+    public WorkersRequest(List<Worker> workers) {
         this.workers = workers;
     }
 
