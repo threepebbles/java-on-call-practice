@@ -19,8 +19,8 @@ public class MainController {
             System.out.println(w.getName());
         }
 
-        WorkersRequest weekendWorkers = InputView.scanWeekDayWorkers();
-        for (Worker w : weekendWorkers.getWorkers()) {
+        WorkersRequest restDayWorkers = InputView.scanRestDayWorkers();
+        for (Worker w : restDayWorkers.getWorkers()) {
             System.out.println(w.getName());
         }
     }

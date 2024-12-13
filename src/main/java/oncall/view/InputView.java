@@ -13,7 +13,7 @@ import oncall.util.RetryHandler;
 public class InputView {
     private static final String ENTER_MONTH_AND_DAY_SCREEN = "비상 근무를 배정할 월과 시작 요일을 입력하세요> ";
     private static final String ENTER_WEEK_DAY_WORKER = "평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ";
-    private static final String ENTER_WEEKEND_WORKER = "휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> ";
+    private static final String ENTER_REST_DAY_WORKER = "휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> ";
 
     private static final int MIN_WORKER_COUNT = 5;
     private static final int MAX_WORKER_COUNT = 35;
@@ -60,9 +60,9 @@ public class InputView {
         });
     }
 
-    public static WorkersRequest scanWeekendWorkers() {
+    public static WorkersRequest scanRestDayWorkers() {
         return (WorkersRequest) RetryHandler.retryUntilSuccessWithReturn(() -> {
-            System.out.print(ENTER_WEEKEND_WORKER);
+            System.out.print(ENTER_REST_DAY_WORKER);
             String inp = Console.readLine();
             validateWorkers(inp);
             List<String> parsed = Arrays.stream(inp.split(",", -1)).toList();
@@ -71,7 +71,7 @@ public class InputView {
             return new WorkersRequest(workers);
         });
     }
-    
+
     private static void validateWorkers(String inp) {
         List<String> parsed = Arrays.stream(inp.split(",", -1)).toList();
         if (parsed.size() < MIN_WORKER_COUNT || parsed.size() > MAX_WORKER_COUNT) {
