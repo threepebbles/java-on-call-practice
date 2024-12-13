@@ -8,7 +8,7 @@ import oncall.domain.DayOfWeek;
 import oncall.domain.Holiday;
 
 public class DateUtil {
-    private static final List<Holiday> HOLIDAYS = new ArrayList<Holiday>() {{
+    public static final List<Holiday> HOLIDAYS = new ArrayList<Holiday>() {{
         add(new Holiday(1, 1));
         add(new Holiday(3, 1));
         add(new Holiday(5, 5));
@@ -18,7 +18,7 @@ public class DateUtil {
         add(new Holiday(10, 9));
         add(new Holiday(12, 25));
     }};
-    private static final Map<Integer, Integer> MONTH_TO_DAY = new HashMap<Integer, Integer>() {
+    public static final Map<Integer, Integer> MONTH_TO_DAY = new HashMap<Integer, Integer>() {
         {
             put(1, 31);
             put(2, 28);
@@ -35,7 +35,7 @@ public class DateUtil {
         }
     };
 
-    private static final List<DayOfWeek> DAY_OF_WEEKS = new ArrayList<DayOfWeek>() {{
+    public static final List<DayOfWeek> DAY_OF_WEEKS = new ArrayList<DayOfWeek>() {{
         add(DayOfWeek.MONDAY);
         add(DayOfWeek.TUESDAY);
         add(DayOfWeek.WEDNESDAY);
@@ -66,6 +66,10 @@ public class DateUtil {
         }
         DayOfWeek target = DAY_OF_WEEKS.get(day % 7 + startDayOfWeek.getOrder() - DayOfWeek.MONDAY.getOrder());
         return target == DayOfWeek.SATURDAY || target == DayOfWeek.SUNDAY;
+    }
+
+    public static Boolean isWeekend(DayOfWeek target) {
+        return target.equals(DayOfWeek.SATURDAY) || target.equals(DayOfWeek.SUNDAY);
     }
 
     public static Boolean isRestDay(int month, int day, DayOfWeek startDayOfWeek) {
