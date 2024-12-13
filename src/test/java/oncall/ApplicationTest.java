@@ -72,6 +72,20 @@ class ApplicationTest extends NsTest {
         });
     }
 
+    @Test
+    void 연속_근무자_발생하는_경우() {
+        assertSimpleTest(() -> {
+            run("5,월",
+                    "1,2,3,4,5,6,7,8,9",
+                    "4,3,2,1,5" // -> 3,4,2,1,5
+            );
+            assertThat(output()).contains(
+                    "5월 5일 금(휴일) 3" + LINE_SEPARATOR,
+                    "5월 6일 토 4" + LINE_SEPARATOR
+            );
+        });
+    }
+
     @Override
     protected void runMain() {
         Application.main(new String[]{});
