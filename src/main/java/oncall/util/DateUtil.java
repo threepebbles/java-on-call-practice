@@ -18,7 +18,7 @@ public class DateUtil {
         add(new Holiday(10, 9));
         add(new Holiday(12, 25));
     }};
-    public static final Map<Integer, Integer> MONTH_TO_DAY = new HashMap<Integer, Integer>() {
+    public static final Map<Integer, Integer> MONTH_TO_END_DAY = new HashMap<Integer, Integer>() {
         {
             put(1, 31);
             put(2, 28);
@@ -53,7 +53,7 @@ public class DateUtil {
         if (!isMonth(month)) {
             return false;
         }
-        return day >= 1 && day <= MONTH_TO_DAY.get(month);
+        return day >= 1 && day <= MONTH_TO_END_DAY.get(month);
     }
 
     public static Boolean isHoliday(int month, int day) {
@@ -64,7 +64,7 @@ public class DateUtil {
         if (!isMonth(month) || !isDay(month, day)) {
             throw new IllegalArgumentException("[ERROR] 올바르지 않은 월, 일입니다.");
         }
-        DayOfWeek target = DAY_OF_WEEKS.get(day % 7 + startDayOfWeek.getOrder() - DayOfWeek.MONDAY.getOrder());
+        DayOfWeek target = calculateDayOfWeek(day, startDayOfWeek);
         return target == DayOfWeek.SATURDAY || target == DayOfWeek.SUNDAY;
     }
 
@@ -73,7 +73,10 @@ public class DateUtil {
     }
 
     public static Boolean isRestDay(int month, int day, DayOfWeek startDayOfWeek) {
-        return isHoliday(month, day) && isWeekend(month, day, startDayOfWeek);
+        return isHoliday(month, day) || isWeekend(month, day, startDayOfWeek);
     }
 
+    public static DayOfWeek calculateDayOfWeek(int day, DayOfWeek startDayOfWeek) {
+        return DAY_OF_WEEKS.get(day % 7 + startDayOfWeek.getOrder() - DayOfWeek.MONDAY.getOrder());
+    }
 }
