@@ -17,17 +17,9 @@ public class MainController {
 
     public void run() {
         MonthAndDayOfWeekRequest monthAndDayOfWeek = InputView.scanMonthAndDayOfWeek();
-//        System.out.println(monthAndDayOfWeek.getMonth() + "," + monthAndDayOfWeek.getDayOfWeek());
-
         List<Worker> weekDayWorkers = InputView.scanWeekDayWorkers().getWorkers();
-//        for (Worker w : weekDayWorkers) {
-//            System.out.println(w.getName());
-//        }
-
         List<Worker> restDayWorkers = InputView.scanRestDayWorkers().getWorkers();
-//        for (Worker w : restDayWorkers) {
-//            System.out.println(w.getName());
-//        }
+
         WorkCalender calender = onCallService.createWorkCalender(monthAndDayOfWeek.getMonth(),
                 monthAndDayOfWeek.getDayOfWeek(), weekDayWorkers, restDayWorkers);
         OutputView.printWorkCalender(calender);
