@@ -13,7 +13,7 @@ import oncall.util.Validator;
 
 public class InputView {
     private static final String ENTER_MONTH_AND_DAY_SCREEN = "비상 근무를 배정할 월과 시작 요일을 입력하세요> ";
-    private static final String ENTER_WEEK_DAY_WORKER = "평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ";
+    private static final String ENTER_WEEKDAY_WORKER = "평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ";
     private static final String ENTER_REST_DAY_WORKER = "휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> ";
 
     private static final int MIN_WORKER_COUNT = 5;
@@ -41,14 +41,14 @@ public class InputView {
         }
     }
 
-    public static WorkersRequest scanWeekDayWorkers() {
+    public static WorkersRequest scanWeekdayWorkers() {
         return (WorkersRequest) RetryHandler.retryUntilSuccessWithReturn(() -> {
-            System.out.print(ENTER_WEEK_DAY_WORKER);
+            System.out.print(ENTER_WEEKDAY_WORKER);
             String inp = Console.readLine();
             validateWorkers(inp);
             List<String> parsed = Arrays.stream(inp.split(",", -1)).toList();
             List<Worker> workers = new ArrayList<>();
-            parsed.forEach(name -> workers.add(new Worker(Course.WEEK_DAY, name)));
+            parsed.forEach(name -> workers.add(new Worker(Course.WEEKDAY, name)));
             return new WorkersRequest(workers);
         });
     }

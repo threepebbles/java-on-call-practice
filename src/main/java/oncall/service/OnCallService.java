@@ -12,14 +12,14 @@ import oncall.domain.Worker;
 import oncall.util.DateUtil;
 
 public class OnCallService {
-    public WorkCalender createWorkCalender(int month, DayOfWeek startDayOfWeek, List<Worker> weekDayWorkers,
+    public WorkCalender createWorkCalender(int month, DayOfWeek startDayOfWeek, List<Worker> weekdayWorkers,
                                            List<Worker> restDayWorkers) {
-        int maxTry = weekDayWorkers.size() * restDayWorkers.size();
+        int maxTry = weekdayWorkers.size() * restDayWorkers.size();
         while (maxTry > 0) {
             WorkCalender calender = createWorkCalenderBy(month, startDayOfWeek,
-                    weekDayWorkers, restDayWorkers);
+                    weekdayWorkers, restDayWorkers);
             if (isConsecutiveWorkerExist(calender)) {
-                swapWorkerOrder(weekDayWorkers, restDayWorkers, calender);
+                swapWorkerOrder(weekdayWorkers, restDayWorkers, calender);
                 maxTry--;
                 continue;
             }
@@ -31,32 +31,32 @@ public class OnCallService {
         throw new IllegalArgumentException("[ERROR] 근무표를 작성할 수 없습니다.");
     }
 
-    private WorkCalender createWorkCalenderBy(int month, DayOfWeek startDayOfWeek, List<Worker> weekDayWorkers,
+    private WorkCalender createWorkCalenderBy(int month, DayOfWeek startDayOfWeek, List<Worker> weekdayWorkers,
                                               List<Worker> restDayWorkers) {
         WorkCalender calender = new WorkCalender(startDayOfWeek);
-        List<WorkDate> weekDays = new ArrayList<>();
+        List<WorkDate> weekdays = new ArrayList<>();
         List<WorkDate> restDays = new ArrayList<>();
-        classifyWorkDate(month, startDayOfWeek, restDays, weekDays);
-        distributeWeekDayWork(weekDayWorkers, weekDays, calender);
+        classifyWorkDate(month, startDayOfWeek, restDays, weekdays);
+        distributeWeekdayWork(weekdayWorkers, weekdays, calender);
         distributeRestDayWork(restDayWorkers, restDays, calender);
         return calender;
     }
 
     private void classifyWorkDate(int month, DayOfWeek startDayOfWeek, List<WorkDate> restDays,
-                                  List<WorkDate> weekDays) {
+                                  List<WorkDate> weekdays) {
         int endDay = DateUtil.MONTH_TO_END_DAY.get(month);
         for (int i = 1; i <= endDay; i++) {
             if (DateUtil.isRestDay(month, i, startDayOfWeek)) {
                 restDays.add(new WorkDate(month, i, DateUtil.calculateDayOfWeek(i, startDayOfWeek)));
                 continue;
             }
-            weekDays.add(new WorkDate(month, i, DateUtil.calculateDayOfWeek(i, startDayOfWeek)));
+            weekdays.add(new WorkDate(month, i, DateUtil.calculateDayOfWeek(i, startDayOfWeek)));
         }
     }
 
-    private void distributeWeekDayWork(List<Worker> weekDayWorkers, List<WorkDate> weekDays, WorkCalender calender) {
-        for (int i = 0, j = 0; i < weekDays.size(); i++, j = (j + 1) % (weekDayWorkers.size())) {
-            calender.addSchedule(weekDays.get(i), weekDayWorkers.get(j));
+    private void distributeWeekdayWork(List<Worker> weekdayWorkers, List<WorkDate> weekdays, WorkCalender calender) {
+        for (int i = 0, j = 0; i < weekdays.size(); i++, j = (j + 1) % (weekdayWorkers.size())) {
+            calender.addSchedule(weekdays.get(i), weekdayWorkers.get(j));
         }
     }
 
@@ -82,7 +82,7 @@ public class OnCallService {
         return -1;
     }
 
-    private void swapWorkerOrder(List<Worker> weekDayWorkers, List<Worker> restDayWorkers, WorkCalender calender) {
+    private void swapWorkerOrder(List<Worker> weekdayWorkers, List<Worker> restDayWorkers, WorkCalender calender) {
         List<String> workerNames = calender.getCalender().stream()
                 .map(workInfo -> workInfo.getWorker().getName())
                 .toList();
@@ -91,10 +91,10 @@ public class OnCallService {
         int month = workInfo.getWorkDate().getMonth();
         int day = workInfo.getWorkDate().getDay();
         DayOfWeek startdayOfWeek = calender.getStartDayOfWeek();
-        swapWorkerOrder(weekDayWorkers, restDayWorkers, month, day, startdayOfWeek, worker);
+        swapWorkerOrder(weekdayWorkers, restDayWorkers, month, day, startdayOfWeek, worker);
     }
 
-    private void swapWorkerOrder(List<Worker> weekDayWorkers, List<Worker> restDayWorkers, int month, int day,
+    private void swapWorkerOrder(List<Worker> weekdayWorkers, List<Worker> restDayWorkers, int month, int day,
                                  DayOfWeek startDayOfWeek, Worker worker) {
         if (DateUtil.isRestDay(month, day, startDayOfWeek)) {
             int i = restDayWorkers.indexOf(worker);
@@ -102,8 +102,8 @@ public class OnCallService {
             Collections.swap(restDayWorkers, i, j);
             return;
         }
-        int i = weekDayWorkers.indexOf(worker);
-        int j = (i + 1) % (weekDayWorkers.size());
-        Collections.swap(weekDayWorkers, i, j);
+        int i = weekdayWorkers.indexOf(worker);
+        int j = (i + 1) % (weekdayWorkers.size());
+        Collections.swap(weekdayWorkers, i, j);
     }
 }

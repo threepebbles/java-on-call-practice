@@ -1,7 +1,7 @@
 package oncall.domain;
 
 public enum Course {
-    WEEK_DAY("평일"),
+    WEEKDAY("평일"),
     REST_DAY("휴일");
     private String description;
 
