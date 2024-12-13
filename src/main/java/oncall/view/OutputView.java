@@ -15,9 +15,7 @@ public class OutputView {
             if (!DateUtil.isWeekend(dayOfWeek) && DateUtil.isRestDay(month, day, calender.getStartDayOfWeek())) {
                 dayOfWeekFormat += "(휴일)";
             }
-            System.out.println(
-                    String.format("%d월 %d일 %s %s", month, day, dayOfWeekFormat, workInfo.getWorker().getName()
-                    ));
+            System.out.printf("%d월 %d일 %s %s%n", month, day, dayOfWeekFormat, workInfo.getWorker().getName());
         }
     }
 }
