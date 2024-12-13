@@ -12,15 +12,4 @@ public class RetryHandler {
             }
         }
     }
-
-    public static void retryUntilSuccess(Runnable toRun) {
-        while (true) {
-            try {
-                toRun.run();
-                return;
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
 }
