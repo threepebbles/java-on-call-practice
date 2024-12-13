@@ -91,7 +91,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() -> {
             run("5,월",
                     "1,2,3,4,5,6,7,8,9", // -> 1,2,3,4,6,5,7,8,9
-                    "4,3,5,1,2"
+                    "3,4,5,1,2"
             );
             assertThat(output()).contains(
                     "5월 8일 월 6" + LINE_SEPARATOR,
