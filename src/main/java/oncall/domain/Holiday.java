@@ -1,8 +1,8 @@
 package oncall.domain;
 
 public class Holiday {
-    private int month;
-    private int day;
+    private final int month;
+    private final int day;
 
     public Holiday(int month, int day) {
         this.month = month;
