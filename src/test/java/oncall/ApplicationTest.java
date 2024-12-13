@@ -73,7 +73,7 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
-    void 연속_근무자_발생하는_경우() {
+    void 평일_휴일_순서로_연속_근무자_발생하는_경우() {
         assertSimpleTest(() -> {
             run("5,월",
                     "1,2,3,4,5,6,7,8,9",
@@ -82,6 +82,20 @@ class ApplicationTest extends NsTest {
             assertThat(output()).contains(
                     "5월 5일 금(휴일) 3" + LINE_SEPARATOR,
                     "5월 6일 토 4" + LINE_SEPARATOR
+            );
+        });
+    }
+
+    @Test
+    void 휴일_평일_순서로_연속_근무자_발생하는_경우() {
+        assertSimpleTest(() -> {
+            run("5,월",
+                    "1,2,3,4,5,6,7,8,9", // -> 1,2,3,4,6,5,7,8,9
+                    "4,3,5,1,2"
+            );
+            assertThat(output()).contains(
+                    "5월 8일 월 6" + LINE_SEPARATOR,
+                    "5월 9일 화 5" + LINE_SEPARATOR
             );
         });
     }
