@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import oncall.domain.DayOfWeek;
 import oncall.domain.Holiday;
 
 public class DateUtil {
@@ -34,6 +35,16 @@ public class DateUtil {
         }
     };
 
+    private static final List<DayOfWeek> DAY_OF_WEEKS = new ArrayList<DayOfWeek>() {{
+        add(DayOfWeek.MONDAY);
+        add(DayOfWeek.TUESDAY);
+        add(DayOfWeek.WEDNESDAY);
+        add(DayOfWeek.THURSDAY);
+        add(DayOfWeek.FRIDAY);
+        add(DayOfWeek.SATURDAY);
+        add(DayOfWeek.SUNDAY);
+    }};
+
     public static Boolean isMonth(int month) {
         return month >= 1 && month <= 12;
     }
@@ -48,4 +59,17 @@ public class DateUtil {
     public static Boolean isHoliday(int month, int day) {
         return HOLIDAYS.stream().anyMatch(h -> h.getMonth() == month && h.getDay() == day);
     }
+
+    public static Boolean isWeekend(int month, int day, DayOfWeek startDayOfWeek) {
+        if (!isMonth(month) || !isDay(month, day)) {
+            throw new IllegalArgumentException("[ERROR] 올바르지 않은 월, 일입니다.");
+        }
+        DayOfWeek target = DAY_OF_WEEKS.get(day % 7 + startDayOfWeek.getOrder() - DayOfWeek.MONDAY.getOrder());
+        return target == DayOfWeek.SATURDAY || target == DayOfWeek.SUNDAY;
+    }
+
+    public static Boolean isRestDay(int month, int day, DayOfWeek startDayOfWeek) {
+        return isHoliday(month, day) && isWeekend(month, day, startDayOfWeek);
+    }
+
 }
